@@ -1,4 +1,6 @@
 using Demo.BLL.Services;
+using Demo.BLL.Services.Classes;
+using Demo.BLL.Services.Interfaces;
 using Demo.DAL.Data.Contexts;
 using Demo.DAL.Data.Repositories;
 using Microsoft.EntityFrameworkCore;

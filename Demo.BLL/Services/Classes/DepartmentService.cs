@@ -1,10 +1,9 @@
 ﻿using Demo.BLL.DTOS;
 using Demo.BLL.Factories;
-using Demo.DAL.Data.Contexts;
+using Demo.BLL.Services.Interfaces;
 using Demo.DAL.Data.Repositories;
-using Demo.DAL.Models;
 
-namespace Demo.BLL.Services;
+namespace Demo.BLL.Services.Classes;
 
 public class DepartmentService : IDepartmentService
 {
@@ -14,8 +13,7 @@ public class DepartmentService : IDepartmentService
         _departmentRepository = departmentRepository;
     }
     //Get All ==> Id, Code, Name, Description, DateOfCreation [Date Part Only]
-
-
+    
 
     public IEnumerable<DepartmentDto> GetAllDepartments()
     {

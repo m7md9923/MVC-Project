@@ -10,4 +10,18 @@
       <ProjectReference Include="..\Demo.BLL\Demo.BLL.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.20">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Views\Home\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Home\Privacy.cshtml" />
+      <_ContentIncludedByDefault Remove="Models\Home\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Models\Home\Privacy.cshtml" />
+    </ItemGroup>
+
 </Project>
