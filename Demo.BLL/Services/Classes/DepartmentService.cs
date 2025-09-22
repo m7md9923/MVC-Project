@@ -2,6 +2,7 @@
 using Demo.BLL.Factories;
 using Demo.BLL.Services.Interfaces;
 using Demo.DAL.Data.Repositories;
+using Demo.DAL.Data.Repositories.Interfaces;
 
 namespace Demo.BLL.Services.Classes;
 

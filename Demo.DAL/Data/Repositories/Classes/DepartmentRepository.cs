@@ -1,4 +1,5 @@
 ﻿using Demo.DAL.Data.Contexts;
+using Demo.DAL.Data.Repositories.Interfaces;
 
 namespace Demo.DAL.Data.Repositories;
 

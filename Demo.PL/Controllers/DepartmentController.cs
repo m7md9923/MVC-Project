@@ -24,6 +24,8 @@ public class DepartmentController(IDepartmentService _departmentService , IWebHo
     }
     #endregion
 
+    #region Create
+
     [HttpGet]
     public IActionResult Create()
     {
@@ -67,5 +69,21 @@ public class DepartmentController(IDepartmentService _departmentService , IWebHo
         return View(departmentDto);
     }
     
-    public 
+    #endregion
+
+    #region Details
+
+    [HttpGet]
+    public IActionResult Details(int? id)
+    {
+        if (!id.HasValue)
+            return BadRequest(); // status code = 400
+        var department = _departmentService.GetById(id.Value);
+        if (department == null)
+            return NotFound(); // status code = 404
+        return View(department);
+    }
+
+    #endregion
+    
 }

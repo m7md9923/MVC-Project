@@ -3,6 +3,7 @@ using Demo.BLL.Services.Classes;
 using Demo.BLL.Services.Interfaces;
 using Demo.DAL.Data.Contexts;
 using Demo.DAL.Data.Repositories;
+using Demo.DAL.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 internal class Program

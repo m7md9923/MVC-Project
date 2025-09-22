@@ -1,6 +1,6 @@
 ﻿using Demo.DAL.Data.Contexts;
 
-namespace Demo.DAL.Data.Repositories;
+namespace Demo.DAL.Data.Repositories.Interfaces;
 
 public interface IDepartmentRepository
 {
