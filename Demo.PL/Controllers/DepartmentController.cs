@@ -5,6 +5,7 @@ using Demo.BLL.Services.Classes;
 using Demo.BLL.Services.Interfaces;
 using Demo.DAL.Data.Contexts;
 using Demo.DAL.Data.Repositories;
+using Demo.PL.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Demo.PL.Controllers;
@@ -84,6 +85,73 @@ public class DepartmentController(IDepartmentService _departmentService , IWebHo
         return View(department);
     }
 
+    #endregion
+
+    #region Edit
+
+    [HttpGet]
+    public IActionResult Edit(int? id)
+    {
+        if (!id.HasValue)
+            return BadRequest(); // status code = 400
+        var department = _departmentService.GetById(id.Value);
+        if (department == null)
+            return NotFound(); // status code = 404
+        var departmentVM = new DepartmentEditViewModel()
+        {
+            Code = department.Code,
+            Description = department.Description,
+            Name = department.Name,
+            CreatedOn = department.CreatedOn.HasValue ? department.CreatedOn.Value : default
+            // Default ==> 1/1/0001
+        };
+        return View(departmentVM);
+    }
+
+    [HttpPost]
+    public IActionResult Edit([FromRoute] int? id, DepartmentEditViewModel departmentVM)
+    {
+        if (ModelState.IsValid)
+        {
+            try
+            {
+                if (!id.HasValue) return BadRequest(); // status code = 400
+                var updatedDeptDto = new UpdateDepartmentDto()
+                {
+                    Id = id.Value,
+                    Code = departmentVM.Code,
+                    Description = departmentVM.Description,
+                    Name = departmentVM.Name,
+                    DateOfCreation = departmentVM.CreatedOn
+                };
+                var res = _departmentService.UpdateDepartment(updatedDeptDto);
+                if (res > 0)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Department Update Failed");
+                }
+            }
+            catch (Exception e)
+            {
+                // Development ==> Action, log error in console, View 
+                // Deployment ==> Action, Log Error in file, Db, Return View (Error)
+                if (_environment.IsDevelopment())
+                {
+                    _logger.LogError($"Deprtment update failed due to : {e.Message}"); // log in console
+                }
+                else
+                {
+                    _logger.LogError($"Deprtment update failed due to : {e}");
+                    return View("ErrorView", e);
+                }
+            }
+        }
+
+        return View(departmentVM);
+    }
     #endregion
     
 }
