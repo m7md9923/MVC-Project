@@ -1,5 +1,8 @@
 ﻿
 using System.Reflection;
+using Demo.DAL.Models.DepartmentModule;
+using Demo.DAL.Models.EmployeeModule;
+
 namespace Demo.DAL.Data.Contexts;
 
 // Dependency Injection
@@ -24,4 +27,5 @@ public class ApplicationDbContext : DbContext
     }
     
     public DbSet<Department> Departments { get; set; }
+    public DbSet<Employee> Employees { get; set; }
 }

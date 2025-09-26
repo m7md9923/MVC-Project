@@ -1,4 +1,6 @@
-﻿namespace Demo.DAL.Models;
+﻿using Demo.DAL.Models.Shared;
+
+namespace Demo.DAL.Models.DepartmentModule;
 
 public class Department : BaseEntity
 {

@@ -153,5 +153,54 @@ public class DepartmentController(IDepartmentService _departmentService , IWebHo
         return View(departmentVM);
     }
     #endregion
+
+    #region Delete
     
+    // // Get --> render the view
+    // [HttpGet]
+    // public IActionResult Delete(int? id)
+    // {
+    //     if (!id.HasValue)
+    //         return BadRequest(); // status code = 400
+    //     var department = _departmentService.GetById(id.Value);
+    //     if (department is null)
+    //         return NotFound(); // status code = 404
+    //     return View(department);
+    // }
+
+    [HttpPost]
+    public IActionResult Delete(int id)
+    {
+        if(id == 0)
+            return BadRequest(); // status code = 400
+        try
+        {
+            bool isDeleted = _departmentService.RemoveDepartment(id);
+            if (isDeleted)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                ModelState.AddModelError("", "Department Deletion Failed");
+                return RedirectToAction("Delete", new { id }); // Redirect to Delete
+            }
+        }
+        catch (Exception e)
+        {
+            // Development ==> Action, log error in console, View 
+            // Deployment ==> Action, Log Error in file, Db, Return View (Error)
+            if (_environment.IsDevelopment())
+            {
+                _logger.LogError($"Deprtment Delete failed due to : {e.Message}"); // log in console
+            }
+            else
+            {
+                // File, Db
+                _logger.LogError($"Deprtment Delete failed due to : {e}");
+            }
+        }
+        return RedirectToAction("Delete", new { id }); 
+    }
+    #endregion
 }
