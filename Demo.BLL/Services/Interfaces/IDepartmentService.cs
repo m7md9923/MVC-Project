@@ -1,4 +1,5 @@
 ﻿using Demo.BLL.DTOS;
+using Demo.BLL.DTOS.DepartmentDTOS;
 
 namespace Demo.BLL.Services.Interfaces;
 

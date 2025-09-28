@@ -6,7 +6,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.BLL", "Demo.BLL\Demo.B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.DAL", "Demo.DAL\Demo.DAL.csproj", "{1D8B9D2A-A4D3-4B42-8FAE-DE0D368188EF}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Session 3", "Session 3", "{D15DF049-3068-4947-82DC-F401627CAA12}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Session 5", "Session 5", "{D15DF049-3068-4947-82DC-F401627CAA12}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

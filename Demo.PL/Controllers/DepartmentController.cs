@@ -1,5 +1,6 @@
 ﻿using System.Runtime.InteropServices.JavaScript;
 using Demo.BLL.DTOS;
+using Demo.BLL.DTOS.DepartmentDTOS;
 using Demo.BLL.Services;
 using Demo.BLL.Services.Classes;
 using Demo.BLL.Services.Interfaces;

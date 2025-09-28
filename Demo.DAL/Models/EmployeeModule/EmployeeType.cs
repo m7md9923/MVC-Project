@@ -3,5 +3,6 @@
 public enum EmployeeType
 {
     FullTimeEmployee = 1,
-    PartTimeEmployee = 2
+    PartTimeEmployee = 2,
+    Remote
 }
