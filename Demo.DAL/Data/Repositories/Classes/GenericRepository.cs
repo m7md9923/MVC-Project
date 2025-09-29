@@ -10,11 +10,11 @@ public class GenericRepository<TEntity> (ApplicationDbContext _dbContext) : IGen
     {
         if (withTracking)
         {
-            return _dbContext.Set<TEntity>().ToList();
+            return _dbContext.Set<TEntity>().Where(e => !e.IsDeleted).ToList();
         }
         else
         {
-            return _dbContext.Set<TEntity>().AsNoTracking().ToList();
+            return _dbContext.Set<TEntity>().Where(e => !e.IsDeleted).AsNoTracking().ToList();
         }
     }
     // 2] Get By Id

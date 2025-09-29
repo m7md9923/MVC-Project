@@ -172,7 +172,7 @@ public class DepartmentController(IDepartmentService _departmentService , IWebHo
     [HttpPost]
     public IActionResult Delete(int id)
     {
-        if(id == 0)
+        if(id <= 0)
             return BadRequest(); // status code = 400
         try
         {
