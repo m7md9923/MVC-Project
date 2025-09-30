@@ -35,6 +35,7 @@ public class DepartmentController(IDepartmentService _departmentService , IWebHo
     }
 
     [HttpPost]
+    // [ValidateAntiForgeryToken] // Attribute ==> Action Filter  
     public IActionResult Create(CreateDepartmentDto departmentDto)
     {
         if (ModelState.IsValid) // Server Side Validation

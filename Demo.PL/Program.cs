@@ -7,6 +7,7 @@ using Demo.DAL.Data.Contexts;
 using Demo.DAL.Data.Repositories;
 using Demo.DAL.Data.Repositories.Classes;
 using Demo.DAL.Data.Repositories.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 internal class Program
@@ -18,6 +19,12 @@ internal class Program
         // Add services to the container.
 
         #region DI Container
+
+        builder.Services.AddControllersWithViews(opt =>
+        {
+            opt.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+        });
+        
         builder.Services.AddControllersWithViews();
         // LifeTime [Objects] ==>  AddScoped , AddSingleton , Addtranisent
         builder.Services.AddScoped<ApplicationDbContext>(); 
