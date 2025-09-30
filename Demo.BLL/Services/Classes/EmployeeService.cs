@@ -10,7 +10,34 @@ public class EmployeeService(IEmployeeRepository _employeeRepository , IMapper _
 {
     public IEnumerable<EmployeeDto> GetAllEmployees(bool withTracking = false)
     {
-        var employees = _employeeRepository.GetAll(withTracking);
+        // Deffered Excecution [Lazy]
+        
+        // Filter Data in CLR [Memory]
+        
+        // var employeeDtos =  _employeeRepository.GetIEnumerable().Where(e => e.IsDeleted == false)
+        //     // Projection 
+        //     .Select(e => new EmployeeDto()
+        //     {
+        //         Id = e.Id,
+        //         Age = e.Age,
+        //         Name = e.Name
+        //     });
+        // return employeeDtos.ToList();
+        //
+        //
+        // // Filetr Data in DB 
+        //
+        // employeeDtos =  _employeeRepository.GetIQueryable().Where(e => e.IsDeleted == false)
+        //     // Projection 
+        //     .Select(e => new EmployeeDto()
+        //     {
+        //         Id = e.Id,
+        //         Age = e.Age,
+        //         Name = e.Name
+        //     });
+        // return employeeDtos.ToList();
+        
+        
         // var employeesDto =  employees.Select(e => new EmployeeDto
         // {
         //     Id = e.Id,
@@ -21,8 +48,22 @@ public class EmployeeService(IEmployeeRepository _employeeRepository , IMapper _
         //     Gender = e.Gender.ToString(),  // Enum ==> String
         //     EmployeeType = e.EmployeeType.ToString() 
         // });
+        
+        var employees = _employeeRepository.GetAll(withTracking);
         var employeesDto = _mapper.Map<IEnumerable<Employee>,IEnumerable<EmployeeDto> >(employees);
         return employeesDto;
+        
+        
+        // Projection ==> performance higher because u select specifiec columns 
+        
+        // var employeedtos = _employeeRepository.GetAll(e=> new EmployeeDto()
+        // {
+        //     Id = e.Id,
+        //     Name = e.Name,
+        //     Age = e.Age,
+        //     Salary = e.Salary
+        // });
+        // return employeedtos;
     }
 
     public EmployeeDetailsDto GetById(int id)
