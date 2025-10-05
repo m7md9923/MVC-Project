@@ -6,7 +6,7 @@ namespace Demo.BLL.Services.Interfaces;
 public interface IEmployeeService
 {
     // 1] GEtAll
-    IEnumerable<EmployeeDto> GetAllEmployees(bool withTracking = false);
+    IEnumerable<EmployeeDto> GetAllEmployees(string EmployeeSearchName,bool withTracking = false);
     
     // 2] GetBy Id
     EmployeeDetailsDto GetById(int id);

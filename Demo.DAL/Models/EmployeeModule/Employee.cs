@@ -1,4 +1,5 @@
-﻿using Demo.DAL.Models.Shared;
+﻿using Demo.DAL.Models.DepartmentModule;
+using Demo.DAL.Models.Shared;
 
 namespace Demo.DAL.Models.EmployeeModule;
 
@@ -18,4 +19,7 @@ public class Employee : BaseEntity
     public Gender Gender { get; set; }
     public EmployeeType EmployeeType { get; set; }
     
+    // Nav Prop
+    public virtual Department? Department { get; set; }
+    public int? DepartmentId { get; set; }
 }

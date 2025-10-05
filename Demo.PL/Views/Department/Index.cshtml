@@ -1,8 +1,49 @@
-﻿@model IEnumerable<Demo.BLL.DTOS.DepartmentDTOS.DepartmentDto>  
+﻿@using Demo.BLL.DTOS.DepartmentDTOS
+@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@model IEnumerable<DepartmentDto>  
 
 @{
     ViewData["Title"] = "Index";
+    var departmentDto = ViewData["Message"] as DepartmentDto;
 }
+
+@if(!String.IsNullOrEmpty(@TempData["Message"] as string))
+{
+<div aria-live="polite" aria-atomic="true" class="toast-container position-fixed p-3" style="bottom: 25px; right:25px; z-index: 100;">
+    <div class="toast fade show " role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto text-success">Success!!</strong>
+            <small>Just now</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            @TempData["Message"]
+        </div>
+    </div>
+</div>
+}
+
+@* Readable ==> ViewBag [No Casting] *@
+@* Preforamnce ==> ViewData  => Type Checking at compile type*@
+
+@* ViewData => Enforce Type Safety [Strongly Typed - Compiler]  // the most common use *@
+@* ViewBag =>  can not Enforce Type Safety [Weakly Typed - CLR]  *@
+
+@* <div class="alert alert-success"> *@
+@*     @ViewData["Message"]     *@
+@* </div> *@
+@* *@
+@* <div class="alert alert-danger"> *@
+@*     @ViewBag.Message *@
+@* </div> *@
+
+@* <div class="alert alert-success"> *@
+@*     @departmentDto.Name *@
+@* </div> *@
+@* <div class="alert alert-danger"> *@
+@*     @ViewBag.Message.Name *@
+@* </div> *@
+
 
 <h1>All Departments</h1>
 <br />
@@ -31,27 +72,22 @@
                 <td>@Html.DisplayFor(d => department.Name)</td>
                 <td>@Html.DisplayFor(d => department.Description)</td>
                 <td>@Html.DisplayFor(d => department.DateOfCreation)</td>
-
-                <td>
-                    <a class="btn btn-primary" asp-action="Details" asp-route-id="@department.DeptID">
-                        <i class="fas fa-eye"></i> Details
-                    </a>
-                </td>
-                <td>
-                    <a class="btn btn-success" asp-action="Edit" asp-route-id="@department.DeptID">
-                        <i class="fas fa-edit"></i> Edit
-                    </a>
-                </td>
+                
+                @* // Tag Helper  *@
+                <partial name = "_ButtonsPartialView" model = "department.DeptId"></partial>
+                
+                
+                
                 <td>
                     @* <a class="btn btn-danger" asp-action="Delete" asp-route-id="@department.DeptID"> *@
                     @*     <i class="fas fa-trash"></i> Delete *@
                     @* </a> *@
                         
-                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#DeleteModal-@department.DeptID">
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#DeleteModal-@department.DeptId">
                         <i class="fas fa-trash"></i> Delete
                     </button>
                     
-                    <div class="modal fade" id="DeleteModal-@department.DeptID" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="DeleteModal-@department.DeptId" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -62,7 +98,7 @@
                                     Are You Sure to Delete this Department?
                                 </div>
                                 <div class="modal-footer">
-                                    <form asp-action="Delete" asp-controller="Department" asp-route-id="@department.DeptID" class="mt-4">
+                                    <form asp-action="Delete" asp-controller="Department" asp-route-id="@department.DeptId" class="mt-4">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                         <input type="submit" value="Delete" class="btn btn-danger" />
                                     </form>

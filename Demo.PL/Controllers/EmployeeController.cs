@@ -2,6 +2,7 @@
 using Demo.BLL.Services.Interfaces;
 using Demo.DAL.Models.EmployeeModule;
 using Demo.DAL.Models.Shared;
+using Demo.PL.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Demo.PL.Controllers;
@@ -13,9 +14,9 @@ public class EmployeeController(IEmployeeService _employeeService , IWebHostEnvi
     // Master Action 
     // BaseURL/Employee/Index ==> Send data Controller --> View
     [HttpGet]
-    public IActionResult Index()
+    public IActionResult Index(string? employeeSearchName)
     {
-        var employeeDtos = _employeeService.GetAllEmployees();
+        var employeeDtos = _employeeService.GetAllEmployees(employeeSearchName);
         return View(employeeDtos);
     }
     #endregion
@@ -23,19 +24,32 @@ public class EmployeeController(IEmployeeService _employeeService , IWebHostEnvi
     #region Create
 
     [HttpGet]
-    public IActionResult Create()
+    public IActionResult Create() // CLR Action Injection 
     {
         return View();
     }
 
     [HttpPost]
-    public IActionResult Create(CreateEmployeeDto employeeDto)
+    public IActionResult Create(EmployeeViewModel employeeViewModel)
     {
         if (ModelState.IsValid)
         {
             try
             {
-                int res = _employeeService.CreateEmployee(employeeDto);
+                int res = _employeeService.CreateEmployee(new CreateEmployeeDto()
+                {
+                    Name = employeeViewModel.Name,
+                    Age = employeeViewModel.Age,
+                    Address = employeeViewModel.Address,
+                    Email = employeeViewModel.Email,
+                    PhoneNumber = employeeViewModel.PhoneNumber,
+                    HiringDate = employeeViewModel.HiringDate,
+                    IsActive = employeeViewModel.IsActive,
+                    Gender = employeeViewModel.Gender,
+                    EmployeeType = employeeViewModel.EmployeeType,
+                    Salary = employeeViewModel.Salary,
+                    DepartmentId = employeeViewModel.DepartmentId
+                });
                 if (res > 0) // Success
                 {
                     return RedirectToAction("Index");
@@ -56,7 +70,7 @@ public class EmployeeController(IEmployeeService _employeeService , IWebHostEnvi
                 }
             }
         }
-        return View(employeeDto);
+        return View(employeeViewModel);
     }
     #endregion
 
@@ -85,9 +99,8 @@ public class EmployeeController(IEmployeeService _employeeService , IWebHostEnvi
         var employee = _employeeService.GetById(id.Value);
         if(employee is null)
             return NotFound(); // status code = 404
-        var employeeDto = new UpdateEmployeeDto()
+        var employeeViewModel = new EmployeeViewModel()  // Department Id
         {
-            Id = employee.Id,
             Name = employee.Name,
             Age = employee.Age,
             Salary = employee.Salary,
@@ -97,23 +110,37 @@ public class EmployeeController(IEmployeeService _employeeService , IWebHostEnvi
             HiringDate = employee.HiringDate,
             IsActive = employee.IsActive,
             Gender = Enum.Parse<Gender>(employee.Gender),
-            EmployeeType = Enum.Parse<EmployeeType>(employee.EmployeeType)
+            EmployeeType = Enum.Parse<EmployeeType>(employee.EmployeeType),
+            DepartmentId = employee.DepartmentId
         };
-        return View(employeeDto);
+        return View(employeeViewModel);
     }
 
     [HttpPost]
-    public IActionResult Edit([FromRoute] int? id, UpdateEmployeeDto employeeDto)
+    public IActionResult Edit([FromRoute] int? id, EmployeeViewModel employeeViewModel)
     {
         if(!id.HasValue)
-            return BadRequest(); // status code = 400
-        if(id != employeeDto.Id)
             return BadRequest(); // status code = 400
         if (ModelState.IsValid)
         {
             try
             {
-                int res = _employeeService.UpdateEmployee(employeeDto);
+                int res = _employeeService.UpdateEmployee(new UpdateEmployeeDto()
+                {
+                    Name = employeeViewModel.Name,
+                    Age = employeeViewModel.Age,
+                    Address = employeeViewModel.Address,
+                    Email = employeeViewModel.Email,
+                    PhoneNumber = employeeViewModel.PhoneNumber,
+                    HiringDate = employeeViewModel.HiringDate,
+                    IsActive = employeeViewModel.IsActive,
+                    Gender = employeeViewModel.Gender,
+                    EmployeeType = employeeViewModel.EmployeeType,
+                    Salary = employeeViewModel.Salary,
+                    Id = id.Value,  // Come From Route 
+                    DepartmentId = employeeViewModel.DepartmentId
+                });
+                
                 if (res > 0)
                     return RedirectToAction("Index");
                 else
@@ -135,7 +162,7 @@ public class EmployeeController(IEmployeeService _employeeService , IWebHostEnvi
             }
         }
 
-        return View(employeeDto);
+        return View(employeeViewModel);
     }
 
     #endregion

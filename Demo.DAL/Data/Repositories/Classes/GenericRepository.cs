@@ -7,7 +7,7 @@ namespace Demo.DAL.Data.Repositories.Classes;
 
 public class GenericRepository<TEntity> (ApplicationDbContext _dbContext) : IGenericRepository<TEntity> where TEntity : BaseEntity
 {
-    public IEnumerable<TEntity> GetAll(bool withTracking = false)
+    public IEnumerable<TEntity> GetAll(bool withTracking = true)
     {
         if (withTracking)
         {
@@ -15,7 +15,7 @@ public class GenericRepository<TEntity> (ApplicationDbContext _dbContext) : IGen
         }
         else
         {
-            return _dbContext.Set<TEntity>().Where(e => !e.IsDeleted).AsNoTracking().ToList();
+            return _dbContext.Set<TEntity>().Where(e => !e.IsDeleted).AsTracking().ToList();
         }
     }
 
@@ -24,7 +24,12 @@ public class GenericRepository<TEntity> (ApplicationDbContext _dbContext) : IGen
         return _dbContext.Set<TEntity>().Where(e => !e.IsDeleted)
             .Select(selector).ToList(); // Deffered ==> Immediate
     }
-    
+
+    public IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> predicate)
+    {
+        return _dbContext.Set<TEntity>().Where(predicate).ToList();
+    }
+
     // 2] Get By Id
     
     public TEntity? GetById(int id)
@@ -34,28 +39,25 @@ public class GenericRepository<TEntity> (ApplicationDbContext _dbContext) : IGen
     
     // 3] ADD
 
-    public int Add(TEntity entity)
+    public void Add(TEntity entity) 
     {
-        _dbContext.Set<TEntity>().Add(entity);
+        _dbContext.Set<TEntity>().Add(entity); // Add locally
         // dbContext.Add(department);
         // dbContext.Set<Department>().Add(department);
-        
-        return _dbContext.SaveChanges();
+
     }
     // 4] Update
 
-    public int Update(TEntity entity)
+    public void Update(TEntity entity)
     {
         _dbContext.Set<TEntity>().Update(entity);
-        return _dbContext.SaveChanges();
     }
     
     // 5] Remove
     
-    public int Remove(TEntity entity)
+    public void Remove(TEntity entity)
     {
         _dbContext.Set<TEntity>().Remove(entity);
-        return _dbContext.SaveChanges();
     }
 
     public IEnumerable<TEntity> GetIEnumerable()

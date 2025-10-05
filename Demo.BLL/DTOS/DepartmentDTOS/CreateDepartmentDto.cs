@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Demo.BLL.DTOS;
+namespace Demo.BLL.DTOS.DepartmentDTOS;
 
 public class CreateDepartmentDto
 {

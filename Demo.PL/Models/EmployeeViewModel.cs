@@ -2,11 +2,10 @@
 using Demo.DAL.Models.EmployeeModule;
 using Demo.DAL.Models.Shared;
 
-namespace Demo.BLL.DTOS.EmployeeDTOS;
+namespace Demo.PL.Models;
 
-public class UpdateEmployeeDto
+public class EmployeeViewModel  
 {
-    public int Id { get; set; }  // ef core detects entity [already exit]
     [Required(ErrorMessage = "Name Can't Be Null")]
     [MaxLength(50, ErrorMessage = "Max length should be 50 character")]
     [MinLength(5, ErrorMessage = "Min length should be 5 characters")]
@@ -39,5 +38,7 @@ public class UpdateEmployeeDto
 
     public EmployeeType EmployeeType { get; set; }
     
+    [Display(Name = "Department")]
     public int? DepartmentId { get; set; }
+    
 }

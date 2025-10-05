@@ -6,9 +6,9 @@ using Demo.DAL.Models.EmployeeModule;
 
 namespace Demo.BLL.Services.Classes;
 
-public class EmployeeService(IEmployeeRepository _employeeRepository , IMapper _mapper) : IEmployeeService
+public class EmployeeService(IUnitOfWork _unitOfWork , IMapper _mapper) : IEmployeeService
 {
-    public IEnumerable<EmployeeDto> GetAllEmployees(bool withTracking = false)
+    public IEnumerable<EmployeeDto> GetAllEmployees(string? employeeSearchName, bool withTracking = false)
     {
         // Deffered Excecution [Lazy]
         
@@ -48,8 +48,16 @@ public class EmployeeService(IEmployeeRepository _employeeRepository , IMapper _
         //     Gender = e.Gender.ToString(),  // Enum ==> String
         //     EmployeeType = e.EmployeeType.ToString() 
         // });
-        
-        var employees = _employeeRepository.GetAll(withTracking);
+
+        IEnumerable<Employee> employees;
+        if (employeeSearchName != null)
+        {
+            employees = _unitOfWork.EmployeeRepository.GetAll(e => e.Name.ToLower().Contains(employeeSearchName.ToLower()) && !e.IsDeleted);
+        }
+        else
+        {
+            employees = _unitOfWork.EmployeeRepository.GetAll(withTracking);
+        }
         var employeesDto = _mapper.Map<IEnumerable<Employee>,IEnumerable<EmployeeDto> >(employees);
         return employeesDto;
         
@@ -68,7 +76,7 @@ public class EmployeeService(IEmployeeRepository _employeeRepository , IMapper _
 
     public EmployeeDetailsDto GetById(int id)
     {
-        var employee = _employeeRepository.GetById(id);
+        var employee = _unitOfWork.EmployeeRepository.GetById(id);
         if(employee is null)
             return null;
         // return new EmployeeDetailsDto()
@@ -96,22 +104,26 @@ public class EmployeeService(IEmployeeRepository _employeeRepository , IMapper _
     public int CreateEmployee(CreateEmployeeDto employeeDto)
     {
         var employee = _mapper.Map<CreateEmployeeDto, Employee>(employeeDto);
-       return _employeeRepository.Add(employee);
+       _unitOfWork.EmployeeRepository.Add(employee);
+       return _unitOfWork.SaveChanges();
     }
 
     public int UpdateEmployee(UpdateEmployeeDto employeeDto)
     {
         var employee = _mapper.Map<UpdateEmployeeDto, Employee>(employeeDto);
-        return _employeeRepository.Update(employee);
+       _unitOfWork.EmployeeRepository.Update(employee);
+       return _unitOfWork.SaveChanges();
     }
 
     public bool RemoveEmployee(int id)
     {
-        // Soft Delete ==> like do update but [IsDeleted = true]
-        var employee = _employeeRepository.GetById(id);
+        // Soft Delete ==> like do update, but [IsDeleted = true]
+        var employee = _unitOfWork.EmployeeRepository.GetById(id);
         if(employee == null)
             return false;
         employee.IsDeleted = true;
-        return _employeeRepository.Update(employee) > 0;
+        // employee.IsActive = false; // According to business
+        _unitOfWork.EmployeeRepository.Update(employee);
+        return _unitOfWork.SaveChanges() > 0;
     }
 }

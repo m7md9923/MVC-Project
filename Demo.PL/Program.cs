@@ -35,15 +35,16 @@ internal class Program
             // options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString"));
             // options.UseSqlServer(builder.Configuration.GetSection("ConnectionString")["DefaultConnectionString"]);
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString"));
-            
+            options.UseLazyLoadingProxies();
         });
         builder.Services.AddScoped<IDepartmentRepository , DepartmentRepository>();
         builder.Services.AddScoped<IDepartmentService , DepartmentService>();
         builder.Services.AddScoped<IEmployeeRepository , EmployeeRepository>();
         builder.Services.AddScoped<IEmployeeService , EmployeeService>();
+        builder.Services.AddScoped<IUnitOfWork , UnitOfWork>();
         // ask u to create obj from class imp IDepartmentRepository  ==> new instance from Department Repository 
         // builder.Services.AddAutoMapper(cfg => {} ,typeof(AssemblyReference).Assembly);
-        builder.Services.AddAutoMapper(Mapping => Mapping.AddProfile(new MappingProfile()));
+        builder.Services.AddAutoMapper(Mapping => Mapping.AddProfile(new MappingProfile()));  // Singleton 
         #endregion
 
         var app = builder.Build();

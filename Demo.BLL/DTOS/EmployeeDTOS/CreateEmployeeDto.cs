@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Demo.DAL.Models.DepartmentModule;
 using Demo.DAL.Models.EmployeeModule;
 using Demo.DAL.Models.Shared;
 
@@ -37,4 +38,7 @@ public class CreateEmployeeDto
     public Gender Gender { get; set; }
 
     public EmployeeType EmployeeType { get; set; }
+    
+    public int? DepartmentId { get; set; }
+    public Department? Department { get; set; }
 }
