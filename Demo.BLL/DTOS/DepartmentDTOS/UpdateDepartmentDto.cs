@@ -1,7 +1,8 @@
-﻿namespace Demo.BLL.DTOS;
+﻿namespace Demo.BLL.DTOS.DepartmentDTOS;
 
-public class CreateDepartmentDto
+public class UpdateDepartmentDto
 {
+    public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public string Code { get; set; } = string.Empty;
     public string? Description { get; set; }

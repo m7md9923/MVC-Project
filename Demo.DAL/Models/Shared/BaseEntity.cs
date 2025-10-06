@@ -1,4 +1,4 @@
-﻿namespace Demo.DAL.Models;
+﻿namespace Demo.DAL.Models.Shared;
 
 public class BaseEntity // Include Common Props [Parent]
 {

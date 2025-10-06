@@ -1,5 +1,7 @@
 ﻿using Demo.BLL.DTOS;
+using Demo.BLL.DTOS.DepartmentDTOS;
 using Demo.DAL.Models;
+using Demo.DAL.Models.DepartmentModule;
 
 namespace Demo.BLL.Factories;
 
@@ -9,7 +11,7 @@ public static class DepartmentFactory
     {
         return new DepartmentDto()
         {
-            DeptID = d.Id,
+            DeptId = d.Id,
             Name = d.Name,
             Code = d.Code,
             Description = d.Description,
