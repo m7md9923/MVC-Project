@@ -1,6 +1,7 @@
 using System.Reflection.Metadata;
 using Demo.BLL.Mappings;
 using Demo.BLL.Services;
+using Demo.BLL.Services.AttachmentService;
 using Demo.BLL.Services.Classes;
 using Demo.BLL.Services.Interfaces;
 using Demo.DAL.Data.Contexts;
@@ -42,6 +43,7 @@ internal class Program
         builder.Services.AddScoped<IEmployeeRepository , EmployeeRepository>();
         builder.Services.AddScoped<IEmployeeService , EmployeeService>();
         builder.Services.AddScoped<IUnitOfWork , UnitOfWork>();
+        builder.Services.AddScoped<IAttachmentService , AttachmentService>();
         // ask u to create obj from class imp IDepartmentRepository  ==> new instance from Department Repository 
         // builder.Services.AddAutoMapper(cfg => {} ,typeof(AssemblyReference).Assembly);
         builder.Services.AddAutoMapper(Mapping => Mapping.AddProfile(new MappingProfile()));  // Singleton 
