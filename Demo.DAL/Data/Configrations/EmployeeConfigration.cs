@@ -8,7 +8,7 @@ public class EmployeeConfigration : BaseEntityConfigrations<Employee>, IEntityTy
     public new void Configure(EntityTypeBuilder<Employee> builder)
     {
         builder.Property(E => E.Address).HasColumnType("varchar(50)");
-        builder.Property(E => E.Name).HasColumnType("varchar(50)");
+        builder.Property(E => E.Name).HasColumnType("varchar(20)");
         builder.Property(E => E.Salary).HasColumnType("decimal(10,2)");
         builder.Property(E => E.Gender).HasConversion(empGender => empGender.ToString(),
             gender => (Gender)Enum.Parse(typeof(Gender), gender));

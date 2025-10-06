@@ -1,4 +1,5 @@
 ﻿using Demo.BLL.DTOS;
+using Demo.BLL.DTOS.DepartmentDTOS;
 using Demo.DAL.Models;
 using Demo.DAL.Models.DepartmentModule;
 

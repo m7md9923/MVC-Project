@@ -1,4 +1,4 @@
-﻿namespace Demo.BLL.DTOS;
+﻿namespace Demo.BLL.DTOS.DepartmentDTOS;
 
 public class DepartmentDto
 {

@@ -1,5 +1,6 @@
 ﻿using System.Runtime.InteropServices.JavaScript;
 using Demo.BLL.DTOS;
+using Demo.BLL.DTOS.DepartmentDTOS;
 using Demo.BLL.Services;
 using Demo.BLL.Services.Classes;
 using Demo.BLL.Services.Interfaces;
@@ -34,6 +35,7 @@ public class DepartmentController(IDepartmentService _departmentService , IWebHo
     }
 
     [HttpPost]
+    // [ValidateAntiForgeryToken] // Attribute ==> Action Filter  
     public IActionResult Create(CreateDepartmentDto departmentDto)
     {
         if (ModelState.IsValid) // Server Side Validation
@@ -171,7 +173,7 @@ public class DepartmentController(IDepartmentService _departmentService , IWebHo
     [HttpPost]
     public IActionResult Delete(int id)
     {
-        if(id == 0)
+        if(id <= 0)
             return BadRequest(); // status code = 400
         try
         {
