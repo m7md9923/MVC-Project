@@ -25,4 +25,8 @@
       <_ContentIncludedByDefault Remove="Models\Home\Privacy.cshtml" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="Models\DepartmentEditViewModel.cs" />
+    </ItemGroup>
+
 </Project>

@@ -11,7 +11,7 @@ public static class DepartmentFactory
     {
         return new DepartmentDto()
         {
-            DeptID = d.Id,
+            DeptId = d.Id,
             Name = d.Name,
             Code = d.Code,
             Description = d.Description,

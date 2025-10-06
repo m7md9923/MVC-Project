@@ -17,4 +17,7 @@ public class EmployeeDetailsDto
     public DateTime? CreatedOn { get; set; }
     public int ModifiedBy { get; set; }
     public DateTime? ModifiedOn { get; set; }
+    
+    public string? Department { get; set; }
+    public int? DepartmentId { get; set; } // FK
 }

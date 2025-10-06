@@ -15,12 +15,38 @@ public class DepartmentController(IDepartmentService _departmentService , IWebHo
 {
 
     #region Index
-
     // BaseURL/ Department/Index
 
     // Constructor injection
+    
+    // View Data, View Bag ==> View Storage ==> deal with the same storage 
+    // Extra Info [Extra data]
+    
+    // 1] Send data from Controller => View 
+    // 2] Send data from View => Partial View
+    // 3] Send data from View => Layout
+    
+    // View Data [Safe]
+    // ViewBag [Unsafe] ==> Dynamic
+    
     public IActionResult Index()
     {
+        // ViewData["Message"] = "Hello from View Data"; // the most common use 
+        // ViewData.Add("Message", "Hello from View Data"); // like Dictionary
+        
+        // ViewBag.Message = "Hello from ViewBag"; // the most common use 
+        // ViewBag.Add("Message", "Hello from ViewBag"); // like Dictionary
+
+        ViewData["Message"] = new DepartmentDto()
+        {
+            Name = "TEST"
+        };
+        
+        ViewBag.Message = new DepartmentDto()
+        {
+            Name = "TEST"
+        };
+        
         var departments = _departmentService.GetAllDepartments() ?? new List<DepartmentDto>();
         return View(departments);
     }
@@ -33,10 +59,10 @@ public class DepartmentController(IDepartmentService _departmentService , IWebHo
     {
         return View(); // Same name as Action 
     }
-
+    
     [HttpPost]
     // [ValidateAntiForgeryToken] // Attribute ==> Action Filter  
-    public IActionResult Create(CreateDepartmentDto departmentDto)
+    public IActionResult Create(DepartmentViewModel departmentViewModel) 
     {
         if (ModelState.IsValid) // Server Side Validation
         {
@@ -45,15 +71,25 @@ public class DepartmentController(IDepartmentService _departmentService , IWebHo
             // MagaerId ==> 6
             try
             {
-                int res = _departmentService.AddDpartment(departmentDto);
+                int res = _departmentService.AddDpartment(new CreateDepartmentDto()
+                {
+                    Code = departmentViewModel.Code,
+                    Description = departmentViewModel.Description,
+                    Name = departmentViewModel.Name,
+                    DateOfCreation = departmentViewModel.CreatedOn
+                    
+                });
+                string message = "";
                 if (res > 0) // Success
                 {
-                    return RedirectToAction("Index");
+                    message = "Department Created Successfully";
                 }
                 else 
                 {
-                    ModelState.AddModelError("", "Department Creation Failed");
+                    message = "Department Creation Failed";
                 }
+                TempData["Message"] = message;
+                return RedirectToAction("Index");
             }
             catch (Exception e)
             {   
@@ -69,7 +105,7 @@ public class DepartmentController(IDepartmentService _departmentService , IWebHo
                 
             }
         }
-        return View(departmentDto);
+        return View(departmentViewModel);
     }
     
     #endregion
@@ -84,7 +120,7 @@ public class DepartmentController(IDepartmentService _departmentService , IWebHo
         var department = _departmentService.GetById(id.Value);
         if (department == null)
             return NotFound(); // status code = 404
-        return View(department);
+        return View();
     }
 
     #endregion
@@ -99,7 +135,7 @@ public class DepartmentController(IDepartmentService _departmentService , IWebHo
         var department = _departmentService.GetById(id.Value);
         if (department == null)
             return NotFound(); // status code = 404
-        var departmentVM = new DepartmentEditViewModel()
+        var departmentVM = new DepartmentViewModel()
         {
             Code = department.Code,
             Description = department.Description,
@@ -111,7 +147,7 @@ public class DepartmentController(IDepartmentService _departmentService , IWebHo
     }
 
     [HttpPost]
-    public IActionResult Edit([FromRoute] int? id, DepartmentEditViewModel departmentVM)
+    public IActionResult Edit([FromRoute] int? id, DepartmentViewModel departmentVM)
     {
         if (ModelState.IsValid)
         {
