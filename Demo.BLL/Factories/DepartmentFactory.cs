@@ -1,5 +1,6 @@
 ﻿using Demo.BLL.DTOS;
 using Demo.DAL.Models;
+using Demo.DAL.Models.DepartmentModule;
 
 namespace Demo.BLL.Factories;
 

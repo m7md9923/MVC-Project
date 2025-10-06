@@ -1,5 +1,8 @@
 ﻿
 using System.Reflection;
+using Demo.DAL.Models.DepartmentModule;
+using Demo.DAL.Models.EmployeeModule;
+
 namespace Demo.DAL.Data.Contexts;
 
 // Dependency Injection
@@ -11,7 +14,8 @@ public class ApplicationDbContext : DbContext
     }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer("Server=.;Database=Demo;Trusted_Connection=True;");
+        optionsBuilder.UseSqlServer("Server=.;Database=Demo;Trusted_Connection=True;TrustServerCertificate=True;");
+
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -23,4 +27,5 @@ public class ApplicationDbContext : DbContext
     }
     
     public DbSet<Department> Departments { get; set; }
+    public DbSet<Employee> Employees { get; set; }
 }

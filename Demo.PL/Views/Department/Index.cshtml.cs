@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Demo.PL.Views;
+namespace Demo.PL.Views.Department;
 
 public class Index : PageModel
 {
