@@ -36,6 +36,7 @@ internal class Program
             // options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString"));
             // options.UseSqlServer(builder.Configuration.GetSection("ConnectionString")["DefaultConnectionString"]);
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString"));
+            options.UseSqlServer("Server=.;Database=Demo;Trusted_Connection=True;TrustServerCertificate=True;");
             options.UseLazyLoadingProxies();
         });
         builder.Services.AddScoped<IDepartmentRepository , DepartmentRepository>();
