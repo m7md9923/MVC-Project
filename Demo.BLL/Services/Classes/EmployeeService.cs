@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
 using Demo.BLL.DTOS.EmployeeDTOS;
+using Demo.BLL.Services.AttachmentService;
 using Demo.BLL.Services.Interfaces;
 using Demo.DAL.Data.Repositories.Interfaces;
 using Demo.DAL.Models.EmployeeModule;
 
 namespace Demo.BLL.Services.Classes;
 
-public class EmployeeService(IUnitOfWork _unitOfWork , IMapper _mapper) : IEmployeeService
+public class EmployeeService(IUnitOfWork _unitOfWork , IMapper _mapper, IAttachmentService _attachmentService) : IEmployeeService
 {
     public IEnumerable<EmployeeDto> GetAllEmployees(string? employeeSearchName, bool withTracking = false)
     {
@@ -104,6 +105,11 @@ public class EmployeeService(IUnitOfWork _unitOfWork , IMapper _mapper) : IEmplo
     public int CreateEmployee(CreateEmployeeDto employeeDto)
     {
         var employee = _mapper.Map<CreateEmployeeDto, Employee>(employeeDto);
+        if (employeeDto.Image is not null)
+        {
+            var imgName =  _attachmentService.Upload(employeeDto.Image, "images");
+            employee.ImageName = imgName;
+        }
        _unitOfWork.EmployeeRepository.Add(employee);
        return _unitOfWork.SaveChanges();
     }

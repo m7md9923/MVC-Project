@@ -20,4 +20,5 @@ public class EmployeeDetailsDto
     
     public string? Department { get; set; }
     public int? DepartmentId { get; set; } // FK
+    public string? ImageName { get; set; }
 }

@@ -14,6 +14,8 @@ public class Employee : BaseEntity
     public string? PhoneNumber { get; set; }
     public DateTime HiringDate { get; set; }
     
+    public string? ImageName { get; set; }
+    
     // Gender ==> [Male-Female]
     // EmployeeType ==> [PartTime-FullTime]
     public Gender Gender { get; set; }

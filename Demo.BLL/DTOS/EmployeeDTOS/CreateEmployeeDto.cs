@@ -2,6 +2,7 @@
 using Demo.DAL.Models.DepartmentModule;
 using Demo.DAL.Models.EmployeeModule;
 using Demo.DAL.Models.Shared;
+using Microsoft.AspNetCore.Http;
 
 namespace Demo.BLL.DTOS.EmployeeDTOS;
 
@@ -41,4 +42,6 @@ public class CreateEmployeeDto
     
     public int? DepartmentId { get; set; }
     public Department? Department { get; set; }
+    
+    public IFormFile? Image { get; set; }
 }
