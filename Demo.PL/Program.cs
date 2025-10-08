@@ -8,6 +8,8 @@ using Demo.DAL.Data.Contexts;
 using Demo.DAL.Data.Repositories;
 using Demo.DAL.Data.Repositories.Classes;
 using Demo.DAL.Data.Repositories.Interfaces;
+using Demo.DAL.Models.IdentityModule;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -41,10 +43,15 @@ internal class Program
         });
         builder.Services.AddScoped<IDepartmentRepository , DepartmentRepository>();
         builder.Services.AddScoped<IDepartmentService , DepartmentService>();
-        builder.Services.AddScoped<IEmployeeRepository , EmployeeRepository>();
-        builder.Services.AddScoped<IEmployeeService , EmployeeService>();
-        builder.Services.AddScoped<IUnitOfWork , UnitOfWork>();
-        builder.Services.AddScoped<IAttachmentService , AttachmentService>();
+        builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+        builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+        builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+        builder.Services.AddScoped<IAttachmentService, AttachmentService>();
+        builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            {
+                // Change Configurations (delete or add or edit)
+            }
+        ).AddEntityFrameworkStores<ApplicationDbContext>();
         // ask u to create obj from class imp IDepartmentRepository  ==> new instance from Department Repository 
         // builder.Services.AddAutoMapper(cfg => {} ,typeof(AssemblyReference).Assembly);
         builder.Services.AddAutoMapper(Mapping => Mapping.AddProfile(new MappingProfile()));  // Singleton 
@@ -70,7 +77,7 @@ internal class Program
 
         app.MapControllerRoute(
             name: "default",
-            pattern: "{controller=Home}/{action=Index}/{id?}");
+            pattern: "{controller=Account}/{action=Register}/{id?}");
 
         app.Run();
     }
