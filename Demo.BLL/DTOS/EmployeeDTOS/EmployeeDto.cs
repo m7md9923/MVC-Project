@@ -19,5 +19,8 @@ public class EmployeeDto
     [Display(Name = "Employee Type")]
     public string EmployeeType { get; set; }
     
-    public string? Department { get; set; }
+    public string? Department { get; set; } // Dept Name
+    
+    [Display(Name = "Image")]
+    public string? ImageName { get; set; }  
 }

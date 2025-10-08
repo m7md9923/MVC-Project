@@ -48,7 +48,8 @@ public class EmployeeController(IEmployeeService _employeeService , IWebHostEnvi
                     Gender = employeeViewModel.Gender,
                     EmployeeType = employeeViewModel.EmployeeType,
                     Salary = employeeViewModel.Salary,
-                    DepartmentId = employeeViewModel.DepartmentId
+                    DepartmentId = employeeViewModel.DepartmentId,
+                    Image = employeeViewModel.Image
                 });
                 if (res > 0) // Success
                 {
